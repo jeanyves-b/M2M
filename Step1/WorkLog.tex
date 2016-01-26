@@ -1,0 +1,237 @@
+
+\documentclass[10]{article}
+\usepackage{graphicx}
+\begin{document}
+\title{Step 1 - Work Log \\
+M2M Lectures\\
+Grenoble University}
+\author{Your Names Here}
+\date{\today}
+\maketitle
+
+\section{Preface by Pr. Olivier Gruber}
+
+This document is your work log for the first step in the 
+M2M course, master-level, at the University of Grenoble, France.
+You will have such a document for each step of our course
+together.
+
+This document has two parts. One part is about diverse
+sections, each with a bunch of questions 
+that you have to answers. The other part is really 
+a laboratory log, keeping track of what you do, 
+as you do.
+
+The questions provide a guideline for your learning. 
+They are not about getting a good grade if you answer them
+correctly, they are about giving your pointers on what to 
+learn about.
+
+The goal of the questions is therefore not to be answered 
+in three lines of text and be forgotten about. The questions
+must be researched and thoroughly understood. Ask questions
+around you if things are unclear, to your fellow students
+and to me, your professor. 
+
+Writing down the answers to the questions is a tool for helping
+your learn and remember. Also, it keeps track of what you know,
+the URLs you visited, the open questions that you are trouble with,
+etc. The tools you used. It is intended to be a living document,
+written as you go.
+
+Ultimately, the goal of the document is to be kept for 
+your personal records. If ever you will work on embedded
+systems, trust me, you will be glad to have a written 
+trace about all this.
+
+{\bf REMEMBER:} plaggia is a crime that can get you evicted
+forever from french universities... The solution is simple,
+write using your own words or quote, giving the source of
+the quoted text. Also, remember that you do not learn through
+cut\&paste. You also do not learn much by watching somebody else
+doing.
+
+\section{Qemu}
+
+\begin{enumerate}
+\item 
+What is Qemu for?
+"QEMU is a generic and open source machine emulator and virtualizer." from the QEMU about page.
+It allow to generate virtaul machines on the fly that won't keep any data.
+\item
+Why cannot you run a linux kernel in a regular linux process?
+Because it will ask for right to do things you don't want it to do... as mess with memory, generate interruption...
+\item
+Comment the different options you used to start qemu.
+qemu-system-i386 -cpu -m 1024 -k fr -name test_step1
+\begin{itemize}
+\item -cpu help
+\item -m 1024 			define the size of the memrory as being 1GB (1024 mb)
+\item -k fr 			define the keyboard layout to french
+\item -name test_step1	gives a name to the VM
+\item -hda disk			the VM will use the file disk as a HDD
+or -snapshot to make the machine create a file then delete it (all will take all the .img )
+\item -display sd1		select the display where the virtual machine will be displayed or nographic to diable display and redirect serials to console
+\item -serial dev 		"redirect the serial port to char device 'dev'"" from the qemu man page
+\end{itemize}
+
+for me from the man page
+During emulation, the following keys are useful:
+ctrl-alt-f      toggle full screen
+ctrl-alt-n      switch to virtual console 'n'
+ctrl-alt        toggle mouse and keyboard grab
+
+\end{enumerate}
+
+\section{Boot Process}
+
+\begin{enumerate}
+\item
+How is an x86 machine booting up?
+Hints: Bios, MBR (Master Boot Record), Kernel.
+When the motherboard is power up, it first starts by lauching his own memory and th CPU,then it launches the BIOS. It then activates all the module wired into the board (including the HDD(s)) then grab what is on the MBR and the boot partition to start the kernel of the operating system.
+(in a UEFI (!=legacy) it is possible to define a partition to boot from directy inside a GPT partition table)
+\item
+How is built the disk image that you use to boot with qemu?
+Describe its layout in terms of sectors and the contents of 
+those sectors.
+
+\end{enumerate}
+
+\page
+
+\section{Using Eclipse to browse the sources} 
+
+Explain how you configured Eclipse to be able to browse the given sources.
+You start by removing eclipse from your computer
+Then install Inellij IDEA and launch it.
+It will prompt a path to the project, you then select the folder containing the code and it works.
+
+\section{Master Boot Record}
+
+\begin{enumerate}
+\item
+From what sources (.c and .S files) is the MBR built?
+the boot.mbr is built using the boot.elf file. witch is compiled using both the boot.S and loader.c
+\item
+What is the purpose of those different files?
+the boot.S file describe the calls to the material and the laoder.c describe the functions used for the disk accesses and read the elf header
+\item
+What is an ELF? (Hint: man elf, Google is your friend) 
+an ELF is a binary file with dynamic links
+\item
+Why is the objcopy program used? (Hint: look in the Makefile)
+objcopy is a gnu utility program that copies file and that can change their type doig so.
+\item
+What kind of informations is available in an ELF file?
+"An executable file using the ELF file format consists of an ELF header, followed by a program header table or a section header table, or both. The ELF header is always at offset zero of the file. The program header table and the section header table's offset in the file are defined in the ELF header. The two tables describe the rest of the particularities of the file.
+
+This header file describes the above mentioned headers as C structures and also includes structures for dynamic sections, relocation sections and symbol tables."from man pages
+\item
+Give the ELF layout of the MBR files (hint: readelf and objdump) 
+en-tête puis table de symbole
+\item
+Look at the code in loader.c and understand it. 
+ok
+\item
+What are the function waitdisk, readsect, and readseg doing?
+the waitdisk function wait for the disk to react (is vailable)
+the readsect function reads a sector on the disk
+the readseg fuction reads an asked number of bites on the disk
+\item
+Explain the dialog with the disk controller. (Hint: in/out functions).
+
+\item
+What can you say about the concepts at the software-hardware frontier?
+\end{enumerate}
+
+\section{Master Boot Record Debugging}
+
+Use gdb to step through our bootloader.
+
+Hints: 
+\begin{enumerate}
+\item 
+Look at the dbg target in the Makefile.
+\item
+Look at the .gdbinit file.
+\item
+Use source layout in gdb.
+\item
+Use emacs as a front end.
+\end{enumerate}
+
+List and explain the various gdb commands you use.
+
+\section{Our mini Kernel}
+
+\begin{enumerate}
+\item
+What is the code in crt0.S doing?
+it s creating a minimal C environment
+\item
+What are the function in/out for at this level?
+calls and 
+\item
+What are the inline attributes for?
+
+\item
+Explain why is your fan ramping up when you launch qemu with:
+
+  \$ make clean ; make run
+
+because it calculate things permanatly. It doesn't know how to wait doing nothing. so it is calculating useless things.
+
+\item
+Explain what is the relationship between the qemu option (-serial stdio)
+and the COM1 concept in the program.
+the option make what we tipes appear in the terminal
+\item
+Explain what is COM1 versus the console?
+COM1 is a different output
+\end{enumerate}
+
+\section{Debugging with Eclipse}
+
+How did you setup your Eclipse to debug your mini kernel?
+
+\section{Kernel Extensions}
+
+{\bf IT IS MANDATORY TO USE THE DEBUGGER TO DEBUG YOUR CODE.}
+
+\subsection{Echo on the screen}
+
+This extension is to have the input from the UART be 
+echoed on the console screen (the greenish output).
+Do not forget that you have only 25 lines and you will
+need to implement scrolling.
+
+\subsection{History and line editing}
+
+This extension is to have a history of typed lines.
+A line is added to the history when the return key is pressed.
+The arrow up and down allow you to scroll up and down in the history.
+The arrow left and write allow you to move left and right in the current line.
+The backspace and delete allow you delete characters.
+
+\subsection{Echo on COM2}
+
+This extension is to have the ability to have a printf-like 
+capability on COM2. The code is in the kprintf.c file.
+
+\noindent Hints: 
+\begin{enumerate}
+\item 
+Look at the target run2 in the Makefile to know how
+to setup COM2.
+\item
+Add the kprintf.c file to your kernel
+\item
+Launch with ``make run2'' and use a telnet connection
+for COM2.
+\end{enumerate}
+
+
+\section{Laboratory Log}
+
+\end{document}
