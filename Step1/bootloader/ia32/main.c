@@ -127,7 +127,7 @@ void write_string( int colour, const char *string)
 {
 	volatile static char *video = (volatile char*)0xB8000;
 	static char commande[10][80];
-	static int nbcommande=0;
+	static int nbcommande=0, commandeactuelle=0;
 	static char x=0, y=0, position=0;
 	char *pointeur = video + 2*x + 160*y;
 	if (string[0]>31 && string[0]<127)
@@ -135,6 +135,7 @@ void write_string( int colour, const char *string)
 		while( *string != 0 )
 		{
 			serial_write_char(COM1,string[0]);
+			commande[commandeactuelle][x] = string[0];
 			*pointeur = *string++;
 			pointeur++;
 			*pointeur = colour;
@@ -155,11 +156,21 @@ void write_string( int colour, const char *string)
 					switch (stk)
 					{
 						case 'A' :
-							y--;
+							if (commandeactuelle > 0)
+							{
+								commandeactuelle--;
+								x = 0;
+								write_string(0x0F, commande[commandeactuelle]);
+							}
 							break;
 
 						case 'B' :
-							y++;
+							if (commandeactuelle < nbcommande)
+							{
+								commandeactuelle++;
+								x = 0;
+								write_string(0x0F, commande[commandeactuelle]);
+							}
 							break;
 
 						case 'C' :
@@ -201,9 +212,11 @@ void write_string( int colour, const char *string)
 				break;
 
 			case '\n' :
+				commande[commandeactuelle][x] = '\0';
 				x = 0;
+				nbcommande++;
+				commandeactuelle = nbcommande;
 				y++;
-				write_string(0x0F, ">");
 				break ;
 
 			case 127 :
