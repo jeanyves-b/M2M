@@ -151,18 +151,18 @@ void onCharReceive(unsigned char c)
 	static char commande[NBLINE][SIZELINE];
 	static char x =0, y = 0, position = 0;
 	char *str;
+	char stk;
 	str[0]=c;
 	str[1]='\0';
 
 	if (c>31 && c<127)
 	{
-		write_string(0x0F, str, &x,y);
 		commande[commandeactuelle][x] = c;
+		write_string(0x0F, str, &x,y);
 		serial_write_char(COM1,c);
 	}
 	else
 	{
-		char stk;
 		switch (c)
 		{
 		case 27 :
@@ -179,9 +179,9 @@ void onCharReceive(unsigned char c)
 					{
 						currentline--;
 						serial_write_char(COM1,'\r');
-
 						x = 0;
 						write_string(0x0F, commande[currentline],&x,y);
+						x = 0;
 					}
 					break;
 
@@ -194,6 +194,7 @@ void onCharReceive(unsigned char c)
 						serial_write_char(COM1,'\r');
 						x = 0;
 						write_string(0x0F, commande[currentline],&x,y);
+						x = 0;
 					}
 					break;
 					//flèche de droite
@@ -237,6 +238,7 @@ void onCharReceive(unsigned char c)
 
 			//fin de ligne
 		case '\n' :
+		case '\r' :
 			for (;x<80;x++)
 				commande[commandeactuelle][x]=' ';
 
@@ -262,6 +264,8 @@ void onCharReceive(unsigned char c)
 			y++;
 			serial_write_char(COM1,'\r');
 			serial_write_char(COM1,'\n');
+			serial_write_char(COM1,'>');
+			commande[commandeactuelle][x] = '>';
 			write_string(0x0F,">",&x,y);
 			break ;
 
