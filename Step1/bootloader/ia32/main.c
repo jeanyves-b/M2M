@@ -13,13 +13,15 @@
 		along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 		Author: Olivier Gruber (olivier dot gruber at acm dot org)
-*/
+ */
 
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 
 #define COM1 ((uint16_t)0x3f8)
 #define COM2 ((uint16_t)0x2f8)
+#define NBLINE 10
+#define SIZELINE 81
 
 static __inline __attribute__((always_inline, no_instrument_function))
 uint8_t inb(uint16_t port) {
@@ -66,46 +68,46 @@ void serial_write_string(uint16_t port, const unsigned char *s) {
 }
 
 char serial_read(uint16_t port) {
-	 while ((inb(port + 5) & 1) == 0);
-	 return inb(port);
+	while ((inb(port + 5) & 1) == 0);
+	return inb(port);
 }
 
 char * itoa( int value, char * str, int base )
 {
-    char * rc;
-    char * ptr;
-    char * low;
-    // Check for supported base.
-    if ( base < 2 || base > 36 )
-    {
-        *str = '\0';
-        return str;
-    }
-    rc = ptr = str;
-    // Set '-' for negative decimals.
-    if ( value < 0 && base == 10 )
-    {
-        *ptr++ = '-';
-    }
-    // Remember where the numbers start.
-    low = ptr;
-    // The actual conversion.
-    do
-    {
-        // Modulo is negative for negative value. This trick makes abs() unnecessary.
-        *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz"[35 + value % base];
-        value /= base;
-    } while ( value );
-    // Terminating the string.
-    *ptr-- = '\0';
-    // Invert the numbers.
-    while ( low < ptr )
-    {
-        char tmp = *low;
-        *low++ = *ptr;
-        *ptr-- = tmp;
-    }
-    return rc;
+	char * rc;
+	char * ptr;
+	char * low;
+	// Check for supported base.
+	if ( base < 2 || base > 36 )
+	{
+		*str = '\0';
+		return str;
+	}
+	rc = ptr = str;
+	// Set '-' for negative decimals.
+	if ( value < 0 && base == 10 )
+	{
+		*ptr++ = '-';
+	}
+	// Remember where the numbers start.
+	low = ptr;
+	// The actual conversion.
+	do
+	{
+		// Modulo is negative for negative value. This trick makes abs() unnecessary.
+		*ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz"[35 + value % base];
+		value /= base;
+	} while ( value );
+	// Terminating the string.
+	*ptr-- = '\0';
+	// Invert the numbers.
+	while ( low < ptr )
+	{
+		char tmp = *low;
+		*low++ = *ptr;
+		*ptr-- = tmp;
+	}
+	return rc;
 }
 
 /*
@@ -123,120 +125,165 @@ char * itoa( int value, char * str, int base )
  * For more info:
  *   http://wiki.osdev.org/VGA_Resources
  */
-void write_string( int colour, const char *string)
+void write_string( int colour, const char *string,char *x, char y)
 {
-	volatile static char *video = (volatile char*)0xB8000;
-	static char commande[10][80];
-	static int nbcommande=0, commandeactuelle=0;
-	static char x=0, y=0, position=0;
-	char *pointeur = video + 2*x + 160*y;
-	if (string[0]>31 && string[0]<127)
+	volatile char *video = (volatile char*)0xB8000;
+
+	char *pointeur = video + 2*(*x) + 160*y;
+
+	//	Caractère ASCII affichable
+	while( *string != 0 )
 	{
-		while( *string != 0 )
-		{
-			serial_write_char(COM1,string[0]);
-			commande[commandeactuelle][x] = string[0];
-			*pointeur = *string++;
-			pointeur++;
-			*pointeur = colour;
-			pointeur++;
-			x++;
-		}
+		*pointeur = *string++;
+		pointeur++;
+		*pointeur = colour;
+		pointeur++;
+		*x+=1;
+	}
+
+}
+
+
+void onCharReceive(unsigned char c)
+{
+
+	static int nbcommande=0, commandeactuelle=0, currentline =0;
+	static char commande[NBLINE][SIZELINE];
+	static char x =0, y = 0, position = 0;
+	char *str;
+	str[0]=c;
+	str[1]='\0';
+
+	if (c>31 && c<127)
+	{
+		write_string(0x0F, str, &x,y);
+		commande[commandeactuelle][x] = c;
+		serial_write_char(COM1,c);
 	}
 	else
 	{
 		char stk;
-		switch (string[0])
+		switch (c)
 		{
-			case 27 :
+		case 27 :
+			stk = serial_read(COM1);
+			if (stk =='[')
+			{
 				stk = serial_read(COM1);
-				if (stk =='[')
+				switch (stk)
 				{
-					stk = serial_read(COM1);
-					switch (stk)
+				//flèche du haut
+				case 'A' :
+
+					if (currentline > 0)
 					{
-						case 'A' :
-							if (commandeactuelle > 0)
-							{
-								commandeactuelle--;
-								x = 0;
-								write_string(0x0F, commande[commandeactuelle]);
-							}
-							break;
+						currentline--;
+						serial_write_char(COM1,'\r');
 
-						case 'B' :
-							if (commandeactuelle < nbcommande)
-							{
-								commandeactuelle++;
-								x = 0;
-								write_string(0x0F, commande[commandeactuelle]);
-							}
-							break;
-
-						case 'C' :
-							x++;
-							if (x >= 79)
-								x=79;
-							break;
-
-						case 'D' :
-							x--;
-							if (x <= 0)
-								x=0;
-							break;
-
-						case '3' :
-							stk = serial_read(COM1);
-							if (stk == 126)
-							{
-								position = x;
-								pointeur = video + 2*x + 160*y;
-								while (x < 80)
-								{
-									char *str;
-									str[0]= *(pointeur+2);
-									str[1]='\0';
-									write_string(*(pointeur+3), str);
-									pointeur += 2;
-								}
-								x = position;
-								position = 0;
-								break ;
-							}
-							else
-							{
-								write_string(0x0F, stk);
-							}
+						x = 0;
+						write_string(0x0F, commande[currentline],&x,y);
 					}
-				}
-				break;
+					break;
 
-			case '\n' :
-				commande[commandeactuelle][x] = '\0';
-				x = 0;
-				nbcommande++;
-				commandeactuelle = nbcommande;
-				y++;
-				break ;
+					//flèche du bas
+				case 'B' :
 
-			case 127 :
-				if (x!=0)
-				{
+					if (currentline < nbcommande)
+					{
+						currentline++;
+						serial_write_char(COM1,'\r');
+						x = 0;
+						write_string(0x0F, commande[currentline],&x,y);
+					}
+					break;
+					//flèche de droite
+				case 'C' :
+					x++;
+					if (x >= 79)
+						x=79;
+					break;
+					//flèche de gauche
+				case 'D' :
 					x--;
-					position = x;
-					pointeur = video + 2*x + 160*y;
-					while (x < 80)
+					if (x <= 0)
+						x=0;
+					break;
+					//touche supr
+				case '3' :
+					stk = serial_read(COM1);
+					if (stk == 126)
 					{
-						char *str;
-						str[0]= *(pointeur+2);
-						str[1]='\0';
-						write_string(*(pointeur+3), str);
-						pointeur += 2;
+						position = x;
+						while (x < 80)
+						{
+							commande[commandeactuelle][x] = commande[commandeactuelle][x+1];
+							x++;
+						}
+
+						commande[commandeactuelle][x] ='\0';
+						x=0;
+						write_string(0x0F, commande[commandeactuelle],&x,y);
+						x = position;
+						position = 0;
+						break ;
 					}
-					x = position;
-					position = 0;
+					else
+					{
+						write_string(0x0F, stk,&x,y);
+					}
 				}
-				break;
+			}
+			break;
+
+			//fin de ligne
+		case '\n' :
+			for (;x<80;x++)
+				commande[commandeactuelle][x]=' ';
+
+			commande[commandeactuelle][x] = '\0';
+			x = 0;
+			if (nbcommande <10)
+				nbcommande++;
+			else
+			{
+				int i=0;
+				int j=0;
+				while (i<(10))
+				{
+					while (j<80)
+					{
+						commande[i][j]=commande[i+1][j];
+						j++;
+					}
+					i++;
+				}
+			}
+			currentline = commandeactuelle = nbcommande;
+			y++;
+			serial_write_char(COM1,'\r');
+			serial_write_char(COM1,'\n');
+			write_string(0x0F,">",&x,y);
+			break ;
+
+			//supression d'un caractère
+		case 127 :
+			if (x!=0)
+			{
+				x--;
+
+				while (x < 80)
+				{
+					commande[commandeactuelle][x] = commande[commandeactuelle][x+1];
+					x++;
+				}
+
+				commande[commandeactuelle][x] ='\0';
+				x=0;
+				write_string(0x0F, commande[commandeactuelle],&x,y);
+				x = position;
+				position = 0;
+			}
+			break;
 		}
 	}
 }
@@ -246,25 +293,16 @@ void kputchar(int c, void *arg)
 	serial_write_char(COM2,c);
 }
 
+
+
 void kmain(void)
 {
 	serial_init(COM1);
 	serial_write_string(COM1,"\n\rHello!\n\r\nThis is a simple echo console... please type something.\n\r");
-	serial_write_char(COM1,'>');
+	onCharReceive('>');
 
-	while(1) {
-		unsigned char c;
-		c=serial_read(COM1);
-		if (c==13) 
-		{
-			c = '\r';
-			serial_write_char(COM1,c);
-			c = '\n';
-			serial_write_char(COM1,c);
-		}
-		char *str;
-		str[0]=c;
-		str[1]='\0';
-		write_string(0x0F, str);
+	while(1)
+	{
+		onCharReceive(serial_read(COM1));
 	}
 }

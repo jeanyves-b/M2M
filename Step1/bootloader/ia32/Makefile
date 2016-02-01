@@ -14,6 +14,9 @@ LDFLAGS= -nostdlib -N -m elf_i386
 
 OBJCOPY=objcopy
 
+CHARDEV_COM2=-chardev socket,id=com2,host=127.0.0.1,port=5555,server,telnet 
+SERIAL_COM2=-serial chardev:com2
+
 all : tags hda.img
 	@echo "  Launch with:"
 	@echo "    $> qemu-system-i386 -serial stdio -hda $@ "
@@ -32,20 +35,27 @@ all : tags hda.img
 # Hardware config: one UART and one IDE disk.
 #---------------------------------------------------------------------------
 
-run: tags hda.img
+run: hda.img
 	qemu-system-i386 -serial stdio -hda hda.img
 
-dbg: tags hda.img
+
+dbg:hda.img
 	qemu-system-i386 -serial stdio -hda hda.img -s -S
 
+#---pour Eclipse
+DEBUG=-s -S
+erun: hda.img
+	qemu-system-i386 -hda hda.img $(CHARDEV_COM2) $(SERIAL_COM2)
+	
+edbg: hda.img
+	qemu-system-i386 -hda hda.img $(CHARDEV_COM2) $(SERIAL_COM2) $(DEBUG)
 #---------------------------------------------------------------------------
 # Run/Debug targets
 # Hardware config: two UARTs and one IDE disk.
 # For debug, uncomment DEBUG.
 #---------------------------------------------------------------------------
 
-CHARDEV_COM2=-chardev socket,id=com2,host=127.0.0.1,port=5555,server,telnet 
-SERIAL_COM2=-serial chardev:com2
+
 #DEBUG=-s -S
 run2: tags hda.img
 	qemu-system-i386 -hda hda.img -serial stdio $(CHARDEV_COM2) $(SERIAL_COM2) $(DEBUG)
@@ -57,7 +67,8 @@ run2: tags hda.img
 hda.img: kernel.elf boot.mbr
 	dd if=boot.mbr of=hda.img bs=512 count=1
 	dd if=kernel.elf of=hda.img bs=512 seek=1
-	dd if=/dev/zero of=hda.img bs=512 seek=$(stat -L -c %s $<) count=32
+	dd if=kernel.elf of=hda.img bs=512 seek=1
+#   dd if=/dev/zero of=hda.img bs=512 seek=$(stat -L -c %s $<) count=32
 
 #---------------------------------------------------------------------------
 # Generates Emacs tags
@@ -111,5 +122,5 @@ main.o: main.c
 
 clean:
 	rm -f boot.mbr boot.elf boot.o loader.o console.o crt0.o kernel.elf hda.img main.o
-	rm TAGS
+	#rm TAGS
 
