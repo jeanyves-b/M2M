@@ -246,7 +246,7 @@ void onCharReceive(unsigned char c)
 
 			commande[commandeactuelle][x] = '\0';
 			x = 0;
-			if (nbcommande <MAXCMDHISTORY)
+			if (nbcommande <MAXCMDHISTORY-1)
 				nbcommande++;
 			///on décale l'historique des commandes vers le haut
 			else
