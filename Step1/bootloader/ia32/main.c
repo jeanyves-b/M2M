@@ -125,7 +125,7 @@ char * itoa( int value, char * str, int base )
  * For more info:
  *   http://wiki.osdev.org/VGA_Resources
  */
-void write_string( int colour, const char *string,char *x, char y)
+void write_string( int colour, const char *string, char *x, char y)
 {
 	volatile char *video = (volatile char*)0xB8000;
 
@@ -246,15 +246,15 @@ void onCharReceive(unsigned char c)
 
 			commande[commandeactuelle][x] = '\0';
 			x = 0;
-			if (nbcommande <MAXCMDHISTORY-1)
+			if (nbcommande < MAXCMDHISTORY-1)
 				nbcommande++;
 			///on décale l'historique des commandes vers le haut
 			else
 			{
 
-				while (index<(10))
+				while (index<(MAXCMDHISTORY))
 				{
-					while (jindex<80)
+					while (jindex<SIZELINE-1)
 					{
 						commande[index][jindex]=commande[index+1][jindex];
 						jindex++;
@@ -279,7 +279,7 @@ void onCharReceive(unsigned char c)
 			{
 				x--;
 
-				while (x < 80)
+				while (x < SIZELINE-1)
 				{
 					commande[commandeactuelle][x] = commande[commandeactuelle][x+1];
 					x++;
@@ -294,6 +294,8 @@ void onCharReceive(unsigned char c)
 			break;
 		}
 	}
+	if (x>SIZELINE-1)
+		x=79;
 }
 
 void kputchar(int c, void *arg)
