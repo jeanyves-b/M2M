@@ -237,8 +237,12 @@ void onCharReceive(unsigned char c)
 			break;
 
 			//fin de ligne
-		case '\n' :
 		case '\r' :
+			x = 0;
+			serial_write_char(COM1,'\r');
+			break;
+			
+		case '\n' :
 			for (;x<80;x++)
 				commande[commandeactuelle][x]=' ';
 
