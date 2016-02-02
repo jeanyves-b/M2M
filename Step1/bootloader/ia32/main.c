@@ -268,7 +268,7 @@ void onCharReceive(unsigned char c)
 			serial_write_char(COM1,'\r');
 			serial_write_char(COM1,'\n');
 			serial_write_char(COM1,'>');
-			x=0;
+
 			commande[commandeactuelle][x] = '>';
 			write_string(0x0F,">",&x,y);
 			break ;
