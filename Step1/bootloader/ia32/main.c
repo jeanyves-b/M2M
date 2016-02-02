@@ -239,8 +239,8 @@ void onCharReceive(unsigned char c)
 			break;
 
 			//fin de ligne
-		case '\n' :
 		case '\r' :
+		case '\n' :
 			for (;x<SIZELINE-1;x++)
 				commande[commandeactuelle][x]=' ';
 
