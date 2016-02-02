@@ -20,7 +20,7 @@ typedef unsigned short uint16_t;
 
 #define COM1 ((uint16_t)0x3f8)
 #define COM2 ((uint16_t)0x2f8)
-#define NBLINE 10
+#define MAXCMDHISTORY 10
 #define SIZELINE 81
 
 static __inline __attribute__((always_inline, no_instrument_function))
@@ -148,12 +148,14 @@ void onCharReceive(unsigned char c)
 {
 
 	static int nbcommande=0, commandeactuelle=0, currentline =0;
-	static char commande[NBLINE][SIZELINE];
+	static char commande[MAXCMDHISTORY][SIZELINE];
 	static char x =0, y = 0, position = 0;
-	char *str;
+	char *str[2];
 	char stk;
 	str[0]=c;
 	str[1]='\0';
+	int index=0;
+	int jindex=0;
 
 	if (c>31 && c<127)
 	{
@@ -238,37 +240,35 @@ void onCharReceive(unsigned char c)
 
 			//fin de ligne
 		case '\r' :
-			x = 0;
-			serial_write_char(COM1,'\r');
-			break;
-			
 		case '\n' :
-			for (;x<80;x++)
+			for (;x<SIZELINE-1;x++)
 				commande[commandeactuelle][x]=' ';
 
 			commande[commandeactuelle][x] = '\0';
 			x = 0;
-			if (nbcommande <10)
+			if (nbcommande <MAXCMDHISTORY)
 				nbcommande++;
+			///on décale l'historique des commandes vers le haut
 			else
 			{
-				int i=0;
-				int j=0;
-				while (i<(10))
+
+				while (index<(10))
 				{
-					while (j<80)
+					while (jindex<80)
 					{
-						commande[i][j]=commande[i+1][j];
-						j++;
+						commande[index][jindex]=commande[index+1][jindex];
+						jindex++;
 					}
-					i++;
+					index++;
 				}
 			}
+
 			currentline = commandeactuelle = nbcommande;
 			y++;
 			serial_write_char(COM1,'\r');
 			serial_write_char(COM1,'\n');
 			serial_write_char(COM1,'>');
+			x=0;
 			commande[commandeactuelle][x] = '>';
 			write_string(0x0F,">",&x,y);
 			break ;
