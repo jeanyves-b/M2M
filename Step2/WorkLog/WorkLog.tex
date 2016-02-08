@@ -65,7 +65,29 @@ We suggest the following steps.
 \begin{itemize}
 \item Read and start understanding the script: mkdist.sh
 Explain each step, explaining the related concepts such as 
-the loopback mount, mknod files (character and block).
+the loopback mount, mknod files (character and block).\\
+
+\textbf{loopback }: pouvoir travailler sur un disque dur sur notre syst\`eme alors que le disque n'existe pas physiquement. On va cr\'eer un fichier (de type block ou charater )rempli de 0 d'une certaine taille . Apr\`es on va lier ce fichier \`a un loop device libre(8 loop device disponible sous linux).
+Ensuite on peut le formater (mkfs) et le monter (mount).
+En fait on fait une simulation d'un disque dur, d'un cd , d'un matériel.
+
+\textbf{Block device }: (fichier spécial de type bloc) C'est un device file dans lequel le système transférera les données sous forme de blocs.
+On a la possibilité de faire un accès non sequentiel au xdonnées (buffering,acc\`es aléatoire) C'est le cas du disque dur.\\
+
+\textbf{Charactere device :} (fichier spécial de type caractère) C'est un device file dans lequel les données seront transmises caractère par caractère (sequntiel). exemple : port série\\
+
+pour voir les devices dans Unbuntu : ls -l /dev\\
+\textbf{b = block device}\\
+$brw-rw----  1 root    disk      7,   0 févr.  8 09:29 loop0\\
+brw-rw----  1 root    disk      1,   0 févr.  8 09:29 ram0\\ 
+brw-rw----+ 1 root    cdrom    11,   0 févr.  8 09:29 sr0\\\\
+rm: sr0 est de type block, c'est le cd des additons pour virtualbox$ 
+
+\textbf{c = charactere device}\\
+$crw--w----  1 root    tty       4,   0 févr.  8 09:29 tty0$
+
+
+ 
 \item Read about and understand the GRUB process and how it is
 installed on a disk and the GRUB boot stages.
 \item Read about and understand the GRUB menu given to you.
@@ -217,29 +239,47 @@ GRUB (ou GNU)est un chargeur de d\'emarrage \`a  l'instar de LILO. Il est extr\^
 GRUB utilise la technique standard pour charger un OS ou du chargement chaîn\'e (chain-loading), pourcharger des syst\`emes d'exploitation non-support\'es en activant un autre chargeur.
 \subsubsection{Principe}
 \includegraphics{SchemaSimplifieGrubDualBoot}\\
-\textit{Schéma simplifi\'e d'un dual-boot}
+\textit{Sch\'ema simplifi\'e d'un dual-boot}
 \subsubsection{rappels}
-(hd0,1)
+\textbf{(hd0,1)}\\
 Ici, hd signifie qu'il s'agit d'un disque dur. Le premier nombre 0 indique le num\'ero du disque, qui est ici le premier disque, alors que le second entier 1 indique le num\'ero de la partition (ou le num\'ero de slice dans la terminologie BSD). Encore une fois, notez que les num\'eros de partitions sont d\'etermin\'es \`a partir de z\'ero, et non depuis un. Cette expression d\'esigne la deuxi\`eme partition du premier disque dur. Dans ce cas, GRUB n'utilise qu'une partition du disque \`a la place du disque entier.  
 
-root device [hdbias] 	Commande
-D\'efinit device comme \'etant la partition racine, puis essaie de la monter pour obtenir la taille de la partition (pour passer le descripteur de la partition en ES:ESI, utilis\'e par certains chargeurs chaîn\'es), le type de disque BSD (pour d\'emarrer des noyaux BSD en utilisant leur format de d\'emarrage natif), et d\'eterminer correctement la partition PC ou se trouve la sous-partition BSD. Le param\`etre facultatif hdbias est un nombre pour informer un noyau BSD du nombre de disque BIOS qui se trouvent sur un contrôleur avant le disque actuel. Par exemple, s'il y a un disque IDE et un disque SCSI, et que votre partition racine FreeBSD se trouve sur le disque SCSI, utilisez 1 pour hdbias. 
+\textbf{root device} [hdbias] 	
+
+D\'efinit le device comme \'etant la partition racine, puis essaie de la monter pour obtenir la taille de la partition (pour passer le descripteur de la partition en ES:ESI, utilis\'e par certains chargeurs chaîn\'es), le type de disque BSD (pour d\'emarrer des noyaux BSD en utilisant leur format de d\'emarrage natif), et d\'eterminer correctement la partition PC ou se trouve la sous-partition BSD. Le param\`etre facultatif hdbias est un nombre pour informer un noyau BSD du nombre de disque BIOS qui se trouvent sur un contrôleur avant le disque actuel. Par exemple, s'il y a un disque IDE et un disque SCSI, et que votre partition racine FreeBSD se trouve sur le disque SCSI, utilisez 1 pour hdbias. 
 
 \subsection{GRUB principles and stages}
 
 
 \begin{enumerate}
 \item
-Look at eltorito stage for CD-ROMs.
+Look at eltorito stage for CD-ROMs. 
+
+\begin{enumerate}
+$source : https://fr.wikipedia.org/wiki/El\_Torito$
+\item R\^ole\\ 
+El Torito (de son nom anglais complet El Torito Bootable CD Specification) est une extension à la norme ISO 9660 sur les CD-ROM d\'ecrivant comment un ordinateur peut d\'emarrer - ou "booter" - \`a partir d'un CD-ROM
+\item Fonctionnement\\
+Selon la norme El Torito, le BIOS d'un PC r\'ecent peut rechercher un programme de boot sur un CD compatible ISO 9660. Si c'est le cas, le BIOS va alors assigner un num\'ero de périph\'erique au lecteur de CD. Ce num\'ero sera soit 80 (émulation du disque dur), 00 (émulation du lecteur de disquettes) ou un numéro au hasard si aucune émulation n'est nécessaire.
+
+Les \'emulations sont principalement utilis\'ees pour permettre \`a d'anciennes version d'OS de d\'emarrer \`a partir d'un CD en leur faisant croire qu'il d\'emarrent \`a partir d'un disque dur ou d'un lecteur de disquette.
+\end{enumerate}
+
 \item
 Look at the various stages for a disk (stage1, stage1.5, stage2).
 \begin{enumerate}
-\item stage 1
-Le premier niveau de GRUB se situe apr\`es l'installation de SuSE Linux dans le secteur d'amorçage maître, dans le secteur d'amorçage d'une partition du disque dur ou dans le secteur d'amorçage d'une disquette. Comme ce premier niveau ne peut être que tr\`es petit puisqu'il n'y a que peu de place \`a disposition dans l'enregistrement d'amorçage maître ou dans les secteurs d'amorçage, la seule tâche de ce niveau est de charger le deuxi\`eme niveau de GRUB.
+\item stage 1\\
+Le premier niveau de GRUB se situe dans le MBR. Comme ce premier niveau ne peut \^etre que tr\`es petit puisqu'il n'y a que peu de place \`a disposition dans l'enregistrement d'amorçage maître ou dans les secteurs d'amorçage, la seule tâche de ce niveau est de charger le deuxi\`eme niveau de GRUB.soit le stage 1.5 ou directement le 2.
+\\
+pour le code : /boot/grub/stage1
 
-\item stage 1.5
-\item stage 2
-Le deuxi\`eme niveau de GRUB fournit les fonctions réelles du chargeur d'amorçage : entre autres le menu de choix (ou cache l'interpréteur de commandes, voir ci-dessous) et le code du programme avec lequel le contrôle de l'ordinateur est passé au syst\`eme d'exploitation. Le fichier de second niveau se trouve sous SuSE Linux dans /boot/grub/stage2. Lors de l'installation du chargeur d'amorçage, l'emplacement physique du disque dur dans lequel se trouve le second niveau est signalé dans le fichier du premier niveau.
+\item stage 1.5\\
+La partie 1.5 peut contenir des pilotes pour pouvoir acc\'eder à la partie 2
+\item stage 2\\
+Le deuxi\`eme niveau de GRUB fournit les fonctions réelles du chargeur d'amorçage : entre autres le menu de choix (ou cache l'interpréteur de commandes) et le code du programme avec lequel le contr\^ole de l'ordinateur est passé au syst\`eme d'exploitation.. Lors de l'installation du chargeur d'amorçage, l'emplacement physique du disque dur dans lequel se trouve le second niveau est signalé dans le fichier du premier niveau.
+\\
+pour le code :  /boot/grub/stage2
+\\
 You can find some relevant documentations in the docs directory,
 in particular the GRUB manual and a great explaination of QEMU disk
 images.
