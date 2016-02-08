@@ -5,7 +5,7 @@
 \title{Step 2 - Work Log \\
 M2M Lectures\\
 Grenoble University}
-\author{Your Names Here}
+\author{Stephane BERGER- Jean-Yves Bottraud}
 \date{\today}
 \maketitle
 
@@ -174,23 +174,77 @@ You will find plenty of information in the README-QEMU document.
 \section{MiniDist Script}
 
 You ask to read and explain the following script (mkdist.sh).
+\subsection{script mkdist.sh explanation }
+\begin{enumerate}
+\item 
+compilation de l'executale hello et int\'egration dans une archive d'un systeme de fichier racine (root file systeme) = distribution
+\item 
+Cr\'eation du fichier disque (fichier minidist.img) (secteur de 512 octets)
+	1 secteur : fichier stage 1
+	secteur 2 \`a 198 : fichier stage 2 
+	64 Mo de vide
+\item Cr\'eation de la partition EXT2
+
+\item Montage de la partition
+\item Copie de la distribution (archive) sur la partition mont\'ee
+\item synchronisation (sync - flush file system buffers)
+\item D\'emontage de la partition
+\item lancement de minidist.img avec Qemu pour installation et configuration de GRUB (Bootloader)
+\begin{itemize}
+\item \textbf{grub > root (hd0,0)}\\
+\textit{commande} : <device-type><device-number>,<partition> \\
+\textit{definiton} :   Configure la partition root de GRUB et monte la partition.
+\item \textbf{grub> setup (hd0)} \\
+\textit{definition} : cette commande installe GRUB sur le MBR du premier disque (hd0).
+\item \textbf{grub> halt}\\
+\textit{definiton} : quitter 
+\end{itemize}
+\item lancement de minidist.img avec Qemu pour lancer le systeme install\'e et donc le fichier ex\'ecutable Hello
+
+\end{enumerate}
 
 \section{GRUB} 
 
 In the grub directory, you will have binary and the sources for
 grub-0.97, an older and much simpler GRUB version.
+sources ifos :
+http://www.linux-france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html\#fn-1
+http://lea-linux.org/documentations/Grub
 
-You can find some relevant documentations in the docs directory,
-in particular the GRUB manual and a great explaination of QEMU disk
-images.
+\subsection{Qu'est-ce que GRUB ?}
+\subsubsection{Présentation}
+GRUB (ou GNU)est un chargeur de d\'emarrage \`a  l'instar de LILO. Il est extr\^emement flexible et peut charger un syst\`eme sans enregistrer la position physique du noyau sur le disque. Vous pouvez lancer un noyau simplement en pr\'ecisant son nom de fichier et le disque (et la partition) sur lequel il r\'eside. Pour ce faire, vous pouvez utiliser l'interface ligne de commande ou l'interface menu. Il est inutile de relancer GRUB apr\`es une modification de sa configuration. Toute modification du fichier de configuration /boot/grub/menu.lst est imm\'ediatement prise en compte. Rappelons enfin que Linux peut être install\'e sur n'importe quelle partition. 
+GRUB utilise la technique standard pour charger un OS ou du chargement chaîn\'e (chain-loading), pourcharger des syst\`emes d'exploitation non-support\'es en activant un autre chargeur.
+\subsubsection{Principe}
+\includegraphics{SchemaSimplifieGrubDualBoot}\\
+\textit{Schéma simplifi\'e d'un dual-boot}
+\subsubsection{rappels}
+(hd0,1)
+Ici, hd signifie qu'il s'agit d'un disque dur. Le premier nombre 0 indique le num\'ero du disque, qui est ici le premier disque, alors que le second entier 1 indique le num\'ero de la partition (ou le num\'ero de slice dans la terminologie BSD). Encore une fois, notez que les num\'eros de partitions sont d\'etermin\'es \`a partir de z\'ero, et non depuis un. Cette expression d\'esigne la deuxi\`eme partition du premier disque dur. Dans ce cas, GRUB n'utilise qu'une partition du disque \`a la place du disque entier.  
+
+root device [hdbias] 	Commande
+D\'efinit device comme \'etant la partition racine, puis essaie de la monter pour obtenir la taille de la partition (pour passer le descripteur de la partition en ES:ESI, utilis\'e par certains chargeurs chaîn\'es), le type de disque BSD (pour d\'emarrer des noyaux BSD en utilisant leur format de d\'emarrage natif), et d\'eterminer correctement la partition PC ou se trouve la sous-partition BSD. Le param\`etre facultatif hdbias est un nombre pour informer un noyau BSD du nombre de disque BIOS qui se trouvent sur un contrôleur avant le disque actuel. Par exemple, s'il y a un disque IDE et un disque SCSI, et que votre partition racine FreeBSD se trouve sur le disque SCSI, utilisez 1 pour hdbias. 
 
 \subsection{GRUB principles and stages}
+
 
 \begin{enumerate}
 \item
 Look at eltorito stage for CD-ROMs.
 \item
 Look at the various stages for a disk (stage1, stage1.5, stage2).
+\begin{enumerate}
+\item stage 1
+Le premier niveau de GRUB se situe apr\`es l'installation de SuSE Linux dans le secteur d'amorçage maître, dans le secteur d'amorçage d'une partition du disque dur ou dans le secteur d'amorçage d'une disquette. Comme ce premier niveau ne peut être que tr\`es petit puisqu'il n'y a que peu de place \`a disposition dans l'enregistrement d'amorçage maître ou dans les secteurs d'amorçage, la seule tâche de ce niveau est de charger le deuxi\`eme niveau de GRUB.
+
+\item stage 1.5
+\item stage 2
+Le deuxi\`eme niveau de GRUB fournit les fonctions réelles du chargeur d'amorçage : entre autres le menu de choix (ou cache l'interpréteur de commandes, voir ci-dessous) et le code du programme avec lequel le contrôle de l'ordinateur est passé au syst\`eme d'exploitation. Le fichier de second niveau se trouve sous SuSE Linux dans /boot/grub/stage2. Lors de l'installation du chargeur d'amorçage, l'emplacement physique du disque dur dans lequel se trouve le second niveau est signalé dans le fichier du premier niveau.
+You can find some relevant documentations in the docs directory,
+in particular the GRUB manual and a great explaination of QEMU disk
+images.
+
+\end{enumerate}
 \item
 Look in the GRUB manual how to install GRUB manually.
 \item 

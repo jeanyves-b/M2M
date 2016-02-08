@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.12.20)  2 FEB 2016 12:19
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.22)  7 FEB 2016 14:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **WorkLog.tex
 (./WorkLog.tex
 LaTeX2e <2011/06/27>
-Babel <3.9h> and hyphenation patterns for 4 languages loaded.
+Babel <3.9h> and hyphenation patterns for 2 languages loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
@@ -163,29 +163,111 @@ ini-tial ramdisk
  []
 
 [3]
+Overfull \hbox (11.22304pt too wide) in paragraph at lines 208--213
+\OT1/cmr/m/n/10 france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html#
+fn-1 http://lea-
+ []
+
+Missing character: There is no Ã in font cmbx10!
+Missing character: There is no © in font cmbx10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ª in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ® in font cmr10!
+
+Overfull \hbox (18.805pt too wide) in paragraph at lines 216--218
+\OT1/cmr/m/n/10 GRUB (ou GNU)est un chargeur de d^^Semarrage ^^Ra l'instar de L
+ILO. Il est extr^emement
+ []
+
+[4] <SchemaSimplifieGrubDualBoot.png, id=22, 401.5pt x 200.75pt>
+File: SchemaSimplifieGrubDualBoot.png Graphic file (type png)
+
+<use SchemaSimplifieGrubDualBoot.png>
+Package pdftex.def Info: SchemaSimplifieGrubDualBoot.png used on input line 219
+.
+(pdftex.def)             Requested size: 401.49901pt x 200.7495pt.
+Missing character: There is no Ã in font cmti10!
+Missing character: There is no © in font cmti10!
+
+Overfull \hbox (56.49901pt too wide) in paragraph at lines 219--221
+[] 
+ []
+
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ® in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ´ in font cmr10!
+[5 <./SchemaSimplifieGrubDualBoot.png>]
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no § in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ® in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no § in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no § in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ª in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no § in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ® in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no § in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ¢ in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no § in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ´ in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no © in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no § in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no © in font cmr10!
+
+Overfull \hbox (4.86162pt too wide) in paragraph at lines 241--246
+\OT1/cmr/m/n/10 avec lequel le con-trle de l'ordinateur est pass au syst^^Reme 
+d'exploitation.
+ []
+
+
+Overfull \hbox (39.22176pt too wide) in paragraph at lines 241--246
+\OT1/cmr/m/n/10 Le fichier de sec-ond niveau se trouve sous SuSE Linux dans /bo
+ot/grub/stage2.
+ []
+
+[6]
 Missing character: There is no â in font cmtt9!
 Missing character: There is no € in font cmtt9!
 Missing character: There is no “ in font cmtt9!
- [4] [5] [6] (./WorkLog.aux) ) 
+ [7] [8] (./WorkLog.aux) ) 
 Here is how much of TeX's memory you used:
- 1512 strings out of 494999
- 21552 string characters out of 6180227
- 77263 words of memory out of 5000000
- 4735 multiletter control sequences out of 15000+600000
+ 1522 strings out of 495028
+ 21762 string characters out of 6181497
+ 77167 words of memory out of 5000000
+ 4734 multiletter control sequences out of 15000+600000
  9052 words of font info for 32 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 37i,6n,23p,235b,189s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on WorkLog.pdf (6 pages, 106458 bytes).
+ 37i,6n,23p,727b,194s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on WorkLog.pdf (8 pages, 144301 bytes).
 PDF statistics:
- 51 PDF objects out of 1000 (max. 8388607)
- 35 compressed objects within 1 object stream
+ 66 PDF objects out of 1000 (max. 8388607)
+ 45 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
