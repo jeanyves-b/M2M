@@ -88,9 +88,13 @@ $crw--w----  1 root    tty       4,   0 févr.  8 09:29 tty0$
 
 
  
-\item Read about and understand the GRUB process and how it is
-installed on a disk and the GRUB boot stages.
-\item Read about and understand the GRUB menu given to you.
+\item Read about and understand the GRUB process and how it is installed on a disk and the GRUB boot stages.
+
+Sur le disque il faut sur le MBR le stage 1 
+ensuite on  place le Stage 1.5 pour que certains driver spécifique soit chargés si nécessaire. 
+Stage 1 (si pas de de stage 1.5) et Stage 1.5 chargent ensuite Stage 2 qui est placé sur le MBR de la partition.
+\item Read about and understand the GRUB menu given to you.\\
+
 \end{itemize}
 
 \item Hello - RootFS
@@ -229,9 +233,11 @@ Cr\'eation du fichier disque (fichier minidist.img) (secteur de 512 octets)
 
 In the grub directory, you will have binary and the sources for
 grub-0.97, an older and much simpler GRUB version.
-sources ifos :
-http://www.linux-france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html\#fn-1
-http://lea-linux.org/documentations/Grub
+\\sources infos :\\
+$http://www.linux-france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html\#fn-1\\
+http://lea-linux.org/documentations/Grub\\
+https://www-uxsup.csx.cam.ac.uk/pub/doc/suse/suse9.2/suselinux-adminguide_en/ch07s04.html\\
+https://docs.oracle.com/cd/E37670_01/E41138/html/ch04s02.html$
 
 \subsection{Qu'est-ce que GRUB ?}
 \subsubsection{Présentation}
