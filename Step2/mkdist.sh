@@ -43,6 +43,7 @@ dd if=/dev/zero of=$DISK bs=512 count=128000 seek=256
 # Use fdisk to delete all partitions and rewrite the partition table,
 # which seems to cleanup the disk label for parted to work.
 fdisk $DISK <<EOF
+p
 d 
 4
 d
