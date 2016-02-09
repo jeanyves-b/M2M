@@ -16,6 +16,7 @@
 GRUB_DIR=./grub/grub
 DIST_DIR=./MiniDist
 MOUNT_DIR=/mnt/hello
+DISK=minidistRootfs.img
 
 
 
