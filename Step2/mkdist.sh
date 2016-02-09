@@ -109,12 +109,12 @@ echo "  grub> root (hd0,0)"
 echo "  grub> setup (hd0)"
 echo "  grub> halt"
 echo 
-qemu-system-i386 -hda $DISK 
+qemu-system-i386 -k fr -hda $DISK 
 
 echo "Re-booting qemu on created disk,"
 echo "you should see your GRUB menu now:"
 echo
-qemu-system-i386 -hda $DISK -serial stdio
+qemu-system-i386 -k fr -hda $DISK -serial stdio
 
 
 
