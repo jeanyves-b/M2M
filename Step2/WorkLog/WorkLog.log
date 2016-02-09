@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.22)  8 FEB 2016 11:18
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.22)  9 FEB 2016 14:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -156,147 +156,116 @@ Underfull \hbox (badness 10000) in paragraph at lines 66--69
  []
 
 Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¨ in font cmr10!
 Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¨ in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
 
 Underfull \hbox (badness 10000) in paragraph at lines 74--76
 
  []
 
 Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no ¨ in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¨ in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¨ in font cmr10!
 Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
+Missing character: There is no ¨ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 77--78
+Underfull \hbox (badness 10000) in paragraph at lines 77--80
 
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 81.
+(Font)              <7> on input line 83.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 81.
+(Font)              <5> on input line 83.
 Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
+Missing character: There is no   in font cmr10!
 
-Overfull \hbox (1.40227pt too wide) in paragraph at lines 98--102
+Underfull \hbox (badness 10000) in paragraph at lines 99--100
+
+ []
+
+[2]
+Overfull \hbox (1.40227pt too wide) in paragraph at lines 108--113
 []\OT1/cmr/m/n/10 Understand the first boot op-tion of the GRUB menu (Hello - R
 ootFS).
  []
 
-[2] [3]
-Overfull \hbox (5.02849pt too wide) in paragraph at lines 176--179
+
+Underfull \hbox (badness 10000) in paragraph at lines 108--113
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 114--116
+
+ []
+
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no © in font cmr10!
+[3]
+Overfull \hbox (5.02849pt too wide) in paragraph at lines 193--196
 []\OT1/cmr/m/n/10 Explain how the linux ker-nel boots with Hello-RootFS. Hint: 
 ini-tial ramdisk
  []
 
 [4]
-Overfull \hbox (11.22304pt too wide) in paragraph at lines 230--235
-\OT1/cmr/m/n/10 france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html#
-fn-1 http://lea-
+Overfull \hbox (103.45578pt too wide) in paragraph at lines 247--254
+\OML/cmm/m/it/10 https \OT1/cmr/m/n/10 : \OML/cmm/m/it/10 ==www \OMS/cmsy/m/n/1
+0 ^^@ \OML/cmm/m/it/10 uxsup:csx:cam:ac:uk=pub=doc=suse=suse\OT1/cmr/m/n/10 9\O
+ML/cmm/m/it/10 :\OT1/cmr/m/n/10 2\OML/cmm/m/it/10 =suselinux \OMS/cmsy/m/n/10 ^
+^@ \OML/cmm/m/it/10 adminguide[]n=ch\OT1/cmr/m/n/10 07\OML/cmm/m/it/10 s\OT1/cm
+r/m/n/10 04\OML/cmm/m/it/10 :html[] 
  []
 
-Missing character: There is no Ã in font cmbx10!
-Missing character: There is no © in font cmbx10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ª in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ® in font cmr10!
 
-Overfull \hbox (18.805pt too wide) in paragraph at lines 238--240
+Overfull \hbox (18.805pt too wide) in paragraph at lines 257--259
 \OT1/cmr/m/n/10 GRUB (ou GNU)est un chargeur de d^^Semarrage ^^Ra l'instar de L
 ILO. Il est extr^emement
  []
 
-<SchemaSimplifieGrubDualBoot.png, id=23, 401.5pt x 200.75pt>
+[5] <SchemaSimplifieGrubDualBoot.png, id=29, 401.5pt x 200.75pt>
 File: SchemaSimplifieGrubDualBoot.png Graphic file (type png)
 
 <use SchemaSimplifieGrubDualBoot.png>
-Package pdftex.def Info: SchemaSimplifieGrubDualBoot.png used on input line 241
+Package pdftex.def Info: SchemaSimplifieGrubDualBoot.png used on input line 260
 .
 (pdftex.def)             Requested size: 401.49901pt x 200.7495pt.
 
-Overfull \hbox (56.49901pt too wide) in paragraph at lines 241--243
-[] 
+Overfull \hbox (56.49901pt too wide) in paragraph at lines 260--262
+[]
  []
 
-[5]
+[6 <./SchemaSimplifieGrubDualBoot.png>]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ® in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ´ in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no   in font cmr10!
- [6 <./SchemaSimplifieGrubDualBoot.png>]
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
 
-Overfull \hbox (17.3061pt too wide) in paragraph at lines 265--266
+Overfull \hbox (17.3061pt too wide) in paragraph at lines 284--285
 []\OT1/cmr/m/n/10 Les ^^Semulations sont prin-ci-pale-ment utilis^^Sees pour pe
 r-me-t-tre ^^Ra d'anciennes
  []
 
 Missing character: There is no Ã in font cmr10!
-Missing character: There is no § in font cmr10!
-Missing character: There is no Ã in font cmr10!
 Missing character: There is no ® in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no § in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¢ in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no   in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no § in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no § in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no © in font cmr10!
+
+Overfull \hbox (2.24136pt too wide) in paragraph at lines 297--305
+\OT1/cmr/m/n/10 l'ordinateur est pass^^Se au syst^^Reme d'exploitation.. Lors d
+e l'installation
+ []
+
 [7]
 Missing character: There is no â in font cmtt9!
 Missing character: There is no € in font cmtt9!
@@ -309,21 +278,23 @@ Here is how much of TeX's memory you used:
  4737 multiletter control sequences out of 15000+600000
  9052 words of font info for 32 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 37i,6n,23p,730b,249s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,6n,23p,736b,253s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
-i10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on WorkLog.pdf (9 pages, 167522 bytes).
+i10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmtt9.pfb>
+Output written on WorkLog.pdf (9 pages, 183213 bytes).
 PDF statistics:
- 77 PDF objects out of 1000 (max. 8388607)
- 53 compressed objects within 1 object stream
+ 85 PDF objects out of 1000 (max. 8388607)
+ 59 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

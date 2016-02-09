@@ -1,4 +1,4 @@
-
+%
 \documentclass[10]{article}
 \usepackage{graphicx}
 \begin{document}
@@ -69,36 +69,54 @@ the loopback mount, mknod files (character and block).\\
 
 \textbf{loopback }: pouvoir travailler sur un disque dur sur notre syst\`eme alors que le disque n'existe pas physiquement. On va cr\'eer un fichier (de type block ou charater )rempli de 0 d'une certaine taille . Apr\`es on va lier ce fichier \`a un loop device libre(8 loop device disponible sous linux).
 Ensuite on peut le formater (mkfs) et le monter (mount).
-En fait on fait une simulation d'un disque dur, d'un cd , d'un matériel.
+on effectue une simulation d'un disque dur, d'un cd , d'un mat\'eriel.
 
-\textbf{Block device }: (fichier spécial de type bloc) C'est un device file dans lequel le système transférera les données sous forme de blocs.
-On a la possibilité de faire un accès non sequentiel au xdonnées (buffering,acc\`es aléatoire) C'est le cas du disque dur.\\
+\textbf{Block device }: (fichier sp\'ecial de type bloc) C'est un device file dans lequel le système transf\'erera les donn\'ees sous forme de blocs.
+On a la possibilit\'e de faire un accès non sequentiel au xdonn\'ees (buffering,acc\`es al\'eatoire) C'est le cas du disque dur.\\
 
-\textbf{Charactere device :} (fichier spécial de type caractère) C'est un device file dans lequel les données seront transmises caractère par caractère (sequntiel). exemple : port série\\
+\textbf{Charactere device :} 
+Fichier sp\'ecial de type caractère =
+ C'est un device file dans lequel les donn\'ees seront transmises caractère par caractère (sequntiel). exemple : port s\'erie\\
 
 pour voir les devices dans Unbuntu : ls -l /dev\\
 \textbf{b = block device}\\
-$brw-rw----  1 root    disk      7,   0 févr.  8 09:29 loop0\\
-brw-rw----  1 root    disk      1,   0 févr.  8 09:29 ram0\\ 
-brw-rw----+ 1 root    cdrom    11,   0 févr.  8 09:29 sr0\\\\
+$brw-rw----  1 root    disk      7,   0 fevr.  8 09:29 loop0\\
+brw-rw----  1 root    disk      1,   0 fevr.  8 09:29 ram0\\ 
+brw-rw----+ 1 root    cdrom    11,   0 fevr.  8 09:29 sr0\\\\
 rm: sr0 est de type block, c'est le cd des additons pour virtualbox$ 
 
 \textbf{c = charactere device}\\
-$crw--w----  1 root    tty       4,   0 févr.  8 09:29 tty0$
+$crw--w----  1 root    tty       4,   0 fevr.  8 09:29 tty0$
+
+\item Read about and understand the GRUB process and how it is installed on a disk and the GRUB boot stages.
+
+Sur le disque il faut sur le MBR le stage 1 ()
+ensuite on  place le Stage 1.5 pour que certains driver sp\'ecifique soit charg\'es si n\'ecessaire.  ( dans les 30 kilooctets suivant le MBR).
+Stage 1 charge Stage 1.5 si il est pr\'esent sinon il charge Stage 2.La partie 1.5 peut contenir des pilotes pour pouvoir acc\'eder à la partie 2.
+Stage 1.5 charge  Stage 2 qui est plac\'e sur . 
 
 
- 
-\item Read about and understand the GRUB process and how it is
-installed on a disk and the GRUB boot stages.
-\item Read about and understand the GRUB menu given to you.
+\item Read about and understand the GRUB menu given to you.\\
+
+
+
+
 \end{itemize}
 
 \item Hello - RootFS
 \begin{itemize}
 \item Understand the first boot option of the GRUB menu (Hello - RootFS).
-Which kernel boots? What is the role of initrd.hello? Look at the
-hello directory and how hello is compiled, linked, and the initrd.hello
-is constructed. Explain how it works and why.
+Which kernel boots? \\
+vmlinufz-2.6.31-22-generic (cf menu.lst dans minidist/boot/grub)\\
+What is the role of initrd.hello? \\
+le r\^ole d'initrd est de permettre au chargeur d'amor\c cage de monter un disque RAM (system de fichier) \`a partir duquel il est possible de lancer des ex\'ecutables et ensuite charger un autre systeme de fichier\\
+
+Look at the hello directory and how hello is compiled, linked, and the initrd.hello is constructed. 
+Explain how it works and why.\\
+
+le fichier initrd est le résultat de la commpression de l'executable hello par cpio.\\
+
+
 \item Read about and understand the purpose of initial ramdisks (initrd)
 for booting linux in general, on any machine.
 \end{itemize}
@@ -213,12 +231,12 @@ Cr\'eation du fichier disque (fichier minidist.img) (secteur de 512 octets)
 \item D\'emontage de la partition
 \item lancement de minidist.img avec Qemu pour installation et configuration de GRUB (Bootloader)
 \begin{itemize}
-\item \textbf{grub > root (hd0,0)}\\
+\item \textbf{grub : root (hd0,0)}\\
 \textit{commande} : <device-type><device-number>,<partition> \\
 \textit{definiton} :   Configure la partition root de GRUB et monte la partition.
-\item \textbf{grub> setup (hd0)} \\
+\item \textbf{grub : setup (hd0)} \\
 \textit{definition} : cette commande installe GRUB sur le MBR du premier disque (hd0).
-\item \textbf{grub> halt}\\
+\item \textbf{grub : halt}\\
 \textit{definiton} : quitter 
 \end{itemize}
 \item lancement de minidist.img avec Qemu pour lancer le systeme install\'e et donc le fichier ex\'ecutable Hello
@@ -229,16 +247,18 @@ Cr\'eation du fichier disque (fichier minidist.img) (secteur de 512 octets)
 
 In the grub directory, you will have binary and the sources for
 grub-0.97, an older and much simpler GRUB version.
-sources ifos :
-http://www.linux-france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html\#fn-1
-http://lea-linux.org/documentations/Grub
+\\sources infos :\\
+$http://www.linux-france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html\#fn-1\\
+http://lea-linux.org/documentations/Grub\\
+https://www-uxsup.csx.cam.ac.uk/pub/doc/suse/suse9.2/suselinux-adminguide_en/ch07s04.html\\
+https://docs.oracle.com/cd/E37670_01/E41138/html/ch04s02.html$
 
 \subsection{Qu'est-ce que GRUB ?}
-\subsubsection{Présentation}
+\subsubsection{Pr\'esentation}
 GRUB (ou GNU)est un chargeur de d\'emarrage \`a  l'instar de LILO. Il est extr\^emement flexible et peut charger un syst\`eme sans enregistrer la position physique du noyau sur le disque. Vous pouvez lancer un noyau simplement en pr\'ecisant son nom de fichier et le disque (et la partition) sur lequel il r\'eside. Pour ce faire, vous pouvez utiliser l'interface ligne de commande ou l'interface menu. Il est inutile de relancer GRUB apr\`es une modification de sa configuration. Toute modification du fichier de configuration /boot/grub/menu.lst est imm\'ediatement prise en compte. Rappelons enfin que Linux peut être install\'e sur n'importe quelle partition. 
 GRUB utilise la technique standard pour charger un OS ou du chargement chaîn\'e (chain-loading), pourcharger des syst\`emes d'exploitation non-support\'es en activant un autre chargeur.
 \subsubsection{Principe}
-\includegraphics{SchemaSimplifieGrubDualBoot}\\
+\includegraphics{SchemaSimplifieGrubDualBoot}
 \textit{Sch\'ema simplifi\'e d'un dual-boot}
 \subsubsection{rappels}
 \textbf{(hd0,1)}\\
@@ -260,7 +280,7 @@ $source : https://fr.wikipedia.org/wiki/El\_Torito$
 \item R\^ole\\ 
 El Torito (de son nom anglais complet El Torito Bootable CD Specification) est une extension à la norme ISO 9660 sur les CD-ROM d\'ecrivant comment un ordinateur peut d\'emarrer - ou "booter" - \`a partir d'un CD-ROM
 \item Fonctionnement\\
-Selon la norme El Torito, le BIOS d'un PC r\'ecent peut rechercher un programme de boot sur un CD compatible ISO 9660. Si c'est le cas, le BIOS va alors assigner un num\'ero de périph\'erique au lecteur de CD. Ce num\'ero sera soit 80 (émulation du disque dur), 00 (émulation du lecteur de disquettes) ou un numéro au hasard si aucune émulation n'est nécessaire.
+Selon la norme El Torito, le BIOS d'un PC r\'ecent peut rechercher un programme de boot sur un CD compatible ISO 9660. Si c'est le cas, le BIOS va alors assigner un num\'ero de p\'eriph\'erique au lecteur de CD. Ce num\'ero sera soit 80 (\'emulation du disque dur), 00 (\'emulation du lecteur de disquettes) ou un num\'ero au hasard si aucune \'emulation n'est n\'ecessaire.
 
 Les \'emulations sont principalement utilis\'ees pour permettre \`a d'anciennes version d'OS de d\'emarrer \`a partir d'un CD en leur faisant croire qu'il d\'emarrent \`a partir d'un disque dur ou d'un lecteur de disquette.
 \end{enumerate}
@@ -269,14 +289,14 @@ Les \'emulations sont principalement utilis\'ees pour permettre \`a d'anciennes 
 Look at the various stages for a disk (stage1, stage1.5, stage2).
 \begin{enumerate}
 \item stage 1\\
-Le premier niveau de GRUB se situe dans le MBR. Comme ce premier niveau ne peut \^etre que tr\`es petit puisqu'il n'y a que peu de place \`a disposition dans l'enregistrement d'amorçage maître ou dans les secteurs d'amorçage, la seule tâche de ce niveau est de charger le deuxi\`eme niveau de GRUB.soit le stage 1.5 ou directement le 2.
+Le premier niveau de GRUB se situe dans le MBR. Comme ce premier niveau ne peut \^etre que tr\`es petit puisqu'il n'y a que peu de place \`a disposition dans l'enregistrement d'amor\c cage maître ou dans les secteurs d'amor\c cage, la seule tâche de ce niveau est de charger le deuxi\`eme niveau de GRUB.soit le stage 1.5 ou directement le 2.
 \\
 pour le code : /boot/grub/stage1
 
 \item stage 1.5\\
 La partie 1.5 peut contenir des pilotes pour pouvoir acc\'eder à la partie 2
 \item stage 2\\
-Le deuxi\`eme niveau de GRUB fournit les fonctions réelles du chargeur d'amorçage : entre autres le menu de choix (ou cache l'interpréteur de commandes) et le code du programme avec lequel le contr\^ole de l'ordinateur est passé au syst\`eme d'exploitation.. Lors de l'installation du chargeur d'amorçage, l'emplacement physique du disque dur dans lequel se trouve le second niveau est signalé dans le fichier du premier niveau.
+Le deuxi\`eme niveau de GRUB fournit les fonctions r\'eelles du chargeur d'amor\c cage : entre autres le menu de choix (ou cache l'interpr\'eteur de commandes) et le code du programme avec lequel le contr\^ole de l'ordinateur est pass\'e au syst\`eme d'exploitation.. Lors de l'installation du chargeur d'amor\c cage, l'emplacement physique du disque dur dans lequel se trouve le second niveau est signal\'e dans le fichier du premier niveau.
 \\
 pour le code :  /boot/grub/stage2
 \\
