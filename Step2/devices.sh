@@ -7,7 +7,8 @@ rm -r $DIR
 mkdir $DIR
 
 #disque dur IDE
-mknod $DIR/hd1 b 3 1
+mknod $DIR/hda b 3 0
+mknod $DIR/hda1 b 3 1
 
 #1er uart port série
 mknod $DIR/ttyS0 c 4 64
