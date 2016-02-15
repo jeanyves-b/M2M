@@ -16,15 +16,13 @@
 GRUB_DIR=./grub/grub
 DIST_DIR=./MiniDist
 MOUNT_DIR=/mnt/hello
-
-
+DISK=minidist.img
 
 # First of all, do compile the hello program that will be used
 # as the init process when booting just a bare kernel, without 
 # any distribution:
 
-#(cd hello ; make -s )
-(cd hello ; make )
+(cd hello ; make -s )
 cp hello/hello MiniDist/
 cp hello/initrd.hello MiniDist/boot/initrd.hello
 
@@ -44,7 +42,6 @@ dd if=/dev/zero of=$DISK bs=512 count=128000 seek=256
 # by parted... so let's use fdisk to cleanup things a bit first.
 # Use fdisk to delete all partitions and rewrite the partition table,
 # which seems to cleanup the disk label for parted to work.
-# d--> delete , w --> valider les changements
 fdisk $DISK <<EOF
 p
 d 
@@ -54,6 +51,7 @@ d
 d
 2
 d
+p
 w
 EOF
 
@@ -117,8 +115,5 @@ qemu-system-i386 -k fr -hda $DISK
 echo "Re-booting qemu on created disk,"
 echo "you should see your GRUB menu now:"
 echo
+
 qemu-system-i386 -k fr -hda $DISK -serial stdio
-
-
-
-
