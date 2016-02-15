@@ -71,28 +71,28 @@ the loopback mount, mknod files (character and block).\\
 Ensuite on peut le formater (mkfs) et le monter (mount).
 on effectue une simulation d'un disque dur, d'un cd , d'un mat\'eriel.
 
-\textbf{Block device }: (fichier sp\'ecial de type bloc) C'est un device file dans lequel le système transf\'erera les donn\'ees sous forme de blocs.
-On a la possibilit\'e de faire un accès non sequentiel au xdonn\'ees (buffering,acc\`es al\'eatoire) C'est le cas du disque dur.\\
+\textbf{Block device }: (fichier sp\'ecial de type bloc) C'est un device file dans lequel le syst\`eme transf\'erera les donn\'ees sous forme de blocs.
+On a la possibilit\'e de faire un acc\`es non sequentiel au xdonn\'ees (buffering,acc\`es al\'eatoire) C'est le cas du disque dur.\\
 
 \textbf{Charactere device :} 
-Fichier sp\'ecial de type caractère =
- C'est un device file dans lequel les donn\'ees seront transmises caractère par caractère (sequntiel). exemple : port s\'erie\\
+Fichier sp\'ecial de type caract\`ere =
+ C'est un device file dans lequel les donn\'ees seront transmises caract\`ere par caract\`ere (sequntiel). exemple : port s\'erie\\
 
 pour voir les devices dans Unbuntu : ls -l /dev\\
 \textbf{b = block device}\\
-$brw-rw----  1 root    disk      7,   0 fevr.  8 09:29 loop0\\
+brw-rw----  1 root    disk      7,   0 fevr.  8 09:29 loop0\\
 brw-rw----  1 root    disk      1,   0 fevr.  8 09:29 ram0\\ 
 brw-rw----+ 1 root    cdrom    11,   0 fevr.  8 09:29 sr0\\\\
-rm: sr0 est de type block, c'est le cd des additons pour virtualbox$ 
+rm: sr0 est de type block, c'est le cd des additons pour virtualbox
 
 \textbf{c = charactere device}\\
-$crw--w----  1 root    tty       4,   0 fevr.  8 09:29 tty0$
+crw--w----  1 root    tty       4,   0 fevr.  8 09:29 tty0
 
 \item Read about and understand the GRUB process and how it is installed on a disk and the GRUB boot stages.
 
 Sur le disque il faut sur le MBR le stage 1 ()
 ensuite on  place le Stage 1.5 pour que certains driver sp\'ecifique soit charg\'es si n\'ecessaire.  ( dans les 30 kilooctets suivant le MBR).
-Stage 1 charge Stage 1.5 si il est pr\'esent sinon il charge Stage 2.La partie 1.5 peut contenir des pilotes pour pouvoir acc\'eder à la partie 2.
+Stage 1 charge Stage 1.5 si il est pr\'esent sinon il charge Stage 2.La partie 1.5 peut contenir des pilotes pour pouvoir acc\'eder \`a la partie 2.
 Stage 1.5 charge  Stage 2 qui est plac\'e sur . 
 
 
@@ -109,12 +109,17 @@ Stage 1.5 charge  Stage 2 qui est plac\'e sur .
 Which kernel boots? \\
 vmlinufz-2.6.31-22-generic (cf menu.lst dans minidist/boot/grub)\\
 What is the role of initrd.hello? \\
-le r\^ole d'initrd est de permettre au chargeur d'amor\c cage de monter un disque RAM (system de fichier) \`a partir duquel il est possible de lancer des ex\'ecutables et ensuite charger un autre systeme de fichier\\
+le r\^ole d'initrd est de permettre au chargeur d'amor\c cage de monter un disque RAM (system de fichier) \`a partir duquel il est possible de lancer des ex\'ecutables (le hello int\'egr\'e \`a initrd)et ensuite charger un autre syst\`eme de fichier\\
 
 Look at the hello directory and how hello is compiled, linked, and the initrd.hello is constructed. 
 Explain how it works and why.\\
 
-le fichier initrd est le résultat de la commpression de l'executable hello par cpio.\\
+le fichier initrd est le r\'esultat de la commpression de l'ex\'ecutable hello par cpio .
+Hello a \'et\'e compile avec l'ensemble des biblioth\`eques n\'ecessaires \`a son  fonctionnement \\
+dans le format ‘newc’ :
+    The new (SVR4) portable format, which supports file systems having more than 65536 i-nodes. (4294967295 bytes).
+    
+Donc initrd.hello est une archive qui sera d\'ecompr\'ess\'ee puis ex\'ecut\'e apr\`es avoir \'et\'e charg\'ee en ram\\
 
 
 \item Read about and understand the purpose of initial ramdisks (initrd)
@@ -124,12 +129,23 @@ for booting linux in general, on any machine.
 \item Hello - Disk
 \begin{itemize}
 \item Read and understand the second boot option (Hello - Disk).
-What is different in the boot process? Explain how this process
-boots the linux kernel from the disk you created with mkdist.sh.
-\item Explain the two console options given to the kernel?
-Why are they useful? How do you exploit them when booting from Qemu?
+What is different in the boot process? \\
+la diff\'erence est \\
+	- le noyau qui n'est pas le m\^eme\\
+	- le systeme de fichier est maintenant stock\'e sur hda1. le systeme boot alors sur /hello\\
+Explain how this process boots the linux kernel from the disk you created with mkdist.sh.\\
+le process va rechercher le noyau dans le r\'epertoire /boot/vmlinuz 
+qui se trouve sur le systeme de fichier /dev/hda1 et puis ensuite il va  lancer l'intialisation avec l'executable hello qui se trouve \`a la racine du systeme de fichier.\\
+\item Explain the two console options given to the kernel?\\
+L'os va utiliser \\
+	- le port s\'erie (ttyS0 = First UART serial port), 115200 bauds, pas de parit\'e sur 8 bits\\
+	- une console vituellle (tty0 = Current virtual console)
+Why are they useful?
+ils vont permettre de 
+ How do you exploit them when booting from Qemu?
 \item Why do we use a different kernel for this boot process?
-Instead of using the generic vmlinuz-2.6.31-22?
+???????????????????
+Instead of using the generic vmlinuz-2.6.31-22???????????????????
 \item Compare the different kernel configurations given to you:
 allnoconfig-2.6.32.65, miniconfig-2.6.32.65, m2m-config-2.6.32.65.
 (hint: compiling a linux kernel, make allnoconfig, make bzImage)
@@ -141,9 +157,16 @@ allnoconfig-2.6.32.65, miniconfig-2.6.32.65, m2m-config-2.6.32.65.
 \begin{itemize}
 \item Dive into the given MiniDist and explain its layout,
 giving the purpose of the different directories.
+/boot : r\'epertoire contenant les noyau qui seront utilis\'es au boot
+/boot/grub : les 3 stages de grub, un fichier de mappage pour le cd ou le disque et un fichier pour le menu. 
+---> quelle diff\'erence entre boot et initrd ? ??????????
+
 \item Explain the purpose of the few files in those directories.
 In particular the various files under /dev.
+dans /dev contient les differents devices (r\'ef\'erence au driver indentifie par un couple de chiffre mineur, majeur) qui peuvent être mont\'es.
+
 \item What is missing for a realistic minidist?
+tout 
 (hint: libraries, commands, shell, configuration files and scripts).
 \end{itemize}
 
@@ -158,31 +181,46 @@ Layout of the Qemu disk, in terms of GRUB stages and file system partition.
 \item
 Partition table in the MBR (see parted and fdisk)
 \item 
-What kind of file system are we using.
-Why only ext2? Could we use something other format?
+What kind of file system are we using. ext2
+Why only ext2? Could we use something other format? ext4
 What do we have to pay attention to? Think GRUB
-and Linux kernel.
+and Linux kernel. il faut que le SF sooit compatible Grub et linux
 \item
 Look in the GRUB manual how to install GRUB manually.
 Explain the manual steps during the mkdist.sh.
+
 Explain why they are necessary. 
+dans le mbr il n'y a pas assez de place pour un vrai noyau , on y place alors juste un petit code (Stage 1) qui va charger le satge 1.5 ou le stage 2.
+
+les deux autres stages sont  plus cons\'equants. Stage 1.5 sert \`a charger certains driver puis Stage 2
+
+Stage2 sert a installer les derniers driver et \`a charger le Sf du systeme d'exploitation
 \item
 Explain the loop-back setup with the Qemu disk.
+le disque est un fichier, il est donc virtuel. 
 Why is it necessary? 
 \item 
 What are those files under /dev?
 What is their purpose? How are they created? (hint mkdnod)
+il ssont cr\'e\'es avec mknod en d\'efinissant le nom et les num\'ero mineur et majeur. Ces deuc num\'ero sontles identifiants pour les drivers mat\'eriels (norme) il ne sont pas d\'efinit comme ça, il ont une signification pr\'ecise 
+voir : http://www.lanana.org/docs/device-list/devices-2.6+.txt
 \item 
 During the mkdist.sh, we boot Qemu twice in a row, 
 with a manual GRUB setup in between.
 What is going on? 
+dans un premier temps on charge le console Grub et on lui donne le root et ensuite l'installe sur le disque (root) 
 Explain why we stop at the GRUB prompt the first time
 and why we get a GRUB menu the second time around.
+la seconde fois on a un menu qui permet de choisir quel OS (noyau) booter.
 \item 
 Look at the GRUB menu and understand its structure.
+titre afficher
+le noyau et le fs
+le boot
 \item 
 Look at the linux kernel options in the GRUB menu.
 What are they for? Why use those options?
+
 Hint: console history, see the differences between
 booting Hello-RootFS and Hello-Disk.
 \item
@@ -201,6 +239,8 @@ Hint: hello makefile.
 Try replacing the kernel in the Hello-Disk configuration,
 from vmlinuz to vmlinuz-2.6.31-22-generic, what is happening?
 Why? Why is it working with vmlinuz.
+vmlinuz contient les drivers pour les disques durs (hda) mais pas vmlinuz qui est plus l\'eger (utilise la ram).
+
 
 \end{enumerate}
 
@@ -276,9 +316,9 @@ D\'efinit le device comme \'etant la partition racine, puis essaie de la monter 
 Look at eltorito stage for CD-ROMs. 
 
 \begin{enumerate}
-$source : https://fr.wikipedia.org/wiki/El\_Torito$
+source : https://fr.wikipedia.org/wiki/El\_Torito
 \item R\^ole\\ 
-El Torito (de son nom anglais complet El Torito Bootable CD Specification) est une extension à la norme ISO 9660 sur les CD-ROM d\'ecrivant comment un ordinateur peut d\'emarrer - ou "booter" - \`a partir d'un CD-ROM
+El Torito (de son nom anglais complet El Torito Bootable CD Specification) est une extension \`a la norme ISO 9660 sur les CD-ROM d\'ecrivant comment un ordinateur peut d\'emarrer - ou "booter" - \`a partir d'un CD-ROM
 \item Fonctionnement\\
 Selon la norme El Torito, le BIOS d'un PC r\'ecent peut rechercher un programme de boot sur un CD compatible ISO 9660. Si c'est le cas, le BIOS va alors assigner un num\'ero de p\'eriph\'erique au lecteur de CD. Ce num\'ero sera soit 80 (\'emulation du disque dur), 00 (\'emulation du lecteur de disquettes) ou un num\'ero au hasard si aucune \'emulation n'est n\'ecessaire.
 
@@ -294,7 +334,7 @@ Le premier niveau de GRUB se situe dans le MBR. Comme ce premier niveau ne peut 
 pour le code : /boot/grub/stage1
 
 \item stage 1.5\\
-La partie 1.5 peut contenir des pilotes pour pouvoir acc\'eder à la partie 2
+La partie 1.5 peut contenir des pilotes pour pouvoir acc\'eder \`a la partie 2
 \item stage 2\\
 Le deuxi\`eme niveau de GRUB fournit les fonctions r\'eelles du chargeur d'amor\c cage : entre autres le menu de choix (ou cache l'interpr\'eteur de commandes) et le code du programme avec lequel le contr\^ole de l'ordinateur est pass\'e au syst\`eme d'exploitation.. Lors de l'installation du chargeur d'amor\c cage, l'emplacement physique du disque dur dans lequel se trouve le second niveau est signal\'e dans le fichier du premier niveau.
 \\
@@ -401,9 +441,9 @@ to booting this kernel. (hint: look at README-QEMU).
 You are given this layout for your mini-distribution.
 {\em\small 
 \begin{verbatim}
-  MiniDist$ ls
+  MiniDist> ls
   bin  boot  dev  etc  hello  lib  root  sbin
-  MiniDist$
+  MiniDist>
 \end{verbatim}
 }
 
@@ -412,5 +452,7 @@ Explain each directory and each directory's contents.
 If you add anything, you will document what you add and why.
 
 \section{Laboratory Log}
+ \subsection{Initrd}
+ voir $http://artisan.karma-lab.net/customiser-initrd$
 
 \end{document}

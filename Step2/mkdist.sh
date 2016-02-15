@@ -79,14 +79,14 @@ sudo mke2fs /dev/loop1
 # once the file system has been created, we can mount it,
 # there are two ways to do it in Linux.
 # The preferred way is to use the loop device we just created:
-# mkdir -p $MOUNT_DIR
+mkdir -p $MOUNT_DIR
 sudo mount /dev/loop1 $MOUNT_DIR
 
 # It is possible however to mount a file at an offset directly
 # with the command mount. We created the partition at sector 256,
 # so the offset is 256*512=131072 (512 being the sector size).
 #
-#    mount -o loop,offset=131072 -t ext2 $DISK $MOUNT_DIR
+#   mount -o loop,offset=131072 -t ext2 $DISK $MOUNT_DIR
 
 # Now copy the mini distribution onto the partition we just mounted.
 # Notice the use of the archive mode of cp, which is essential 
