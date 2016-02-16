@@ -116,9 +116,13 @@ echo "Re-booting qemu on created disk,"
 echo "you should see your GRUB menu now:"
 echo
 
+tput setaf 2
+echo "Montage du nouveau disque" 
 ./mountdisk.sh
-./devices.sh
-./directory.sh
+echo "création des devives utilisés"
+sudo ./devices.sh
+echo "ajout des répertoires"
+sudo ./directory.sh
 ./unmountdisk.sh
 
 qemu-system-i386 -k fr -hda $DISK -serial stdio

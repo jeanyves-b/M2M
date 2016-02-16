@@ -9,7 +9,7 @@ kernel /boot/vmlinuz root=/dev/hda1 init=/hello console=ttyS0,115200n8 console=t
 boot
 
 title Your Mini Distribution
-kernel /boot/vmlinuz root=/dev/hda1 init=/init console=ttyS0,115200n8 console=tty0
+kernel /boot/vmlinuz-2.6.32.65 root=/dev/hda1 init=/init console=ttyS0,115200n8 console=tty0
 boot
 
 title My linux 4.4.1 renome en 2.6.32
