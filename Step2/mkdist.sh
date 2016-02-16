@@ -116,4 +116,9 @@ echo "Re-booting qemu on created disk,"
 echo "you should see your GRUB menu now:"
 echo
 
+./mountdisk.sh
+./devices.sh
+./directory.sh
+./unmountdisk.sh
+
 qemu-system-i386 -k fr -hda $DISK -serial stdio
