@@ -43,6 +43,7 @@ dd if=/dev/zero of=$DISK bs=512 count=128000 seek=256
 # Use fdisk to delete all partitions and rewrite the partition table,
 # which seems to cleanup the disk label for parted to work.
 fdisk $DISK <<EOF
+p
 d 
 4
 d
@@ -50,6 +51,7 @@ d
 d
 2
 d
+p
 w
 EOF
 
@@ -108,13 +110,15 @@ echo "  grub> root (hd0,0)"
 echo "  grub> setup (hd0)"
 echo "  grub> halt"
 echo 
-qemu-system-i386 -hda $DISK 
+qemu-system-i386 -k fr -hda $DISK 
 
 echo "Re-booting qemu on created disk,"
 echo "you should see your GRUB menu now:"
 echo
-qemu-system-i386 -hda $DISK -serial stdio
 
+./mountdisk.sh
+./devices.sh
+./directory.sh
+./unmountdisk.sh
 
-
-
+qemu-system-i386 -k fr -hda $DISK -serial stdio
