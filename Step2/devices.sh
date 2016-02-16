@@ -1,13 +1,14 @@
 #http://www.lanana.org/docs/device-list/devices-2.6+.txt
 
 
-DIR=~/git/M2M/Step2/MiniDist/dev
+DIR=/mnt/minidist/dev
 
 rm -r $DIR
 mkdir $DIR
 
 #disque dur IDE
 mknod $DIR/hda b 3 0
+#1ere partition disque dur IDE
 mknod $DIR/hda1 b 3 1
 
 #1er uart port série
